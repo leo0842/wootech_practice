@@ -1,16 +1,17 @@
 package numberbaseball;
 
-public class StrikeAndBall {
+public class ResultPrinter {
+  private int strike;
+  private int ball;
 
+  public ResultPrinter(int strike, int ball) {
+    this.strike = strike;
+    this.ball = ball;
+  }
 
-  int strike = 0;
-  int ball = 0;
-  String answer;
-  boolean perfect = false;
-
-  public String check() {
+  public void print(){
+    String answer;
     if (strike == 3) {
-      perfect = true;
       answer = "정답입니다.";
     } else if (ball == 0 & strike == 0) {
       answer = "낫싱";
@@ -22,9 +23,7 @@ public class StrikeAndBall {
       } else {
         answer = strike + "스트라이크" + ball + "볼";
       }
-
     }
-    return answer;
+    System.out.println(answer);
   }
-
 }
