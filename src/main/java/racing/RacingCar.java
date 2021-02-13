@@ -3,27 +3,38 @@ package racing;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import racing.game.Car;
+import racing.game.Game;
+import racing.printer.GamePrinter;
+import racing.printer.ResultPrinter;
 
 public class RacingCar {
 
   public static void main(String[] args) {
 
-    Game game = new Game();
-
-    Printer printer = new Printer();
-
-    printer.start();
+    GamePrinter gamePrinter = new GamePrinter();
+    gamePrinter.start();
     Scanner in = new Scanner(System.in);
 
-    printer.obtainCarName();
-    game.addCars(in.next());
+    gamePrinter.obtainCarName();
+    String carNameInput = in.next();
 
-    printer.obtainTimesToPlay();
+    gamePrinter.obtainTimesToPlay();
     int timesToPlay = in.nextInt();
 
-    game.raceStart(timesToPlay);
+    List<Car> carsToRace = new ArrayList<>();
+    for (String carName : carNameInput.split(",")) {
+      carsToRace.add(new Car(carName));
+    }
+    Game game = new Game(carsToRace, timesToPlay);
+    ResultPrinter resultPrinter = new ResultPrinter(game);
 
-    printer.result(game.carsToRace);
+    while (game.isInProgress()) {
+      game.nextRound();
+      resultPrinter.printStep();
+    }
+
+    resultPrinter.printResult();
   }
 
 }
